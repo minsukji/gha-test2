@@ -70,7 +70,7 @@ jobs:
         test_set: [thr,mpi,dcp,rst,bit,dbg]
         #${{ fromJson(needs.setup.outputs.test) }}
         include:
-          - test_set: thr,mpi,dcp,rst
+          - test_set: [thr,mpi,dcp,rst]
             artifact: std
           - test_set: bit
             artifact: bit
