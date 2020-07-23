@@ -67,8 +67,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test_set: ['rst']
-        #${{ fromJson(needs.setup.outputs.test) }}
+        #test_set: ['rst']
+        ${{ fromJson(needs.setup.outputs.test) }}
         include:
           - test_set: rst
             artifact: std
