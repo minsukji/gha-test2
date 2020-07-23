@@ -43,13 +43,13 @@ jobs:
           [[ $i =~ dbg ]] && tv+=( dbg )
         done
 
-        #var5=$(echo $var5 | sed -e 's/,$//')
-        #var5+='],"include":['
-        #j=0
+        var5=$(echo $var5 | sed -e 's/,$//')
+        var5+='],"include":['
+        j=0
         #for i in $var2; do var5+="{\"test_set\":\"$i\",\"artifact\":\"${tv[$j]}\"},"; ((j++)); done
-        #var5=$(echo $var5 | sed -e 's/,$//')
-        #var5+=']}'
+        var5=$(echo $var5 | sed -e 's/,$//')
+        var5+=']}'
 
-        echo "::set-output name=case::$var1"
-        echo "::set-output name=bld::$var4"
-        #echo "::set-output name=test::$var5"
+        echo $var1
+        echo $var4
+        echo $var5
