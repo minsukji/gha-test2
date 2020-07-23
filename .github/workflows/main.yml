@@ -1,0 +1,82 @@
+name: Tests
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  setup:
+    name: Set up
+    runs-on: ubuntu-latest
+
+    outputs:
+      case: ${{ steps.setup.output.case }}
+      bld: ${{ steps.setup.output.bld }}
+      test: ${{ steps.setup.output.test }}
+
+    steps:
+    - name: Checkout codes
+      uses: actions/checkout@v2
+
+    - name: Parse cases
+      id: setup
+      run: |
+        var1=$(sed -n 1p ${GITHUB_WORKSPACE}/tests/ci.test)
+        var2=$(sed -n 2p ${GITHUB_WORKSPACE}/tests/ci.test)
+        var3=''
+        [[ $var2 =~ thr || $var2 =~ mpi || $var2 =~ dcp || $var2 =~ rst ]] && var3+='std'
+        [[ $var2 =~ bit ]] && var3+=' bit'
+        [[ $var2 =~ dbg ]] && var3+=' dbg'
+        var3=$(echo $var3 | sed -e 's/^ *//' -e 's/ *$//')
+        var4='{"bld_set":['
+        for i in $var3; do var4+="\"$i\","; done
+        var4=$(echo $VAR4 | sed -e 's/,$//')
+        var4+=']}'
+        echo "::set-output name=case::$var1"
+        echo "::set-output name=bld::$var4"
+        echo "::set-output name=test::$var2"
+        
+
+  build:
+    name: Build ${{ matrix.bld_set }}
+    needs: setup
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.setup.outputs.bld) }}
+
+    - name: create image
+      run: echo ${{ matrix.bld_set }} > ci-test-weather
+
+    - name: upload image
+      uses: actions/upload-artifact@v2
+      with:
+        name: ci-test-weather-${{ matrix.bld_set }}
+        path: ci-test-weather
+
+  utest:
+    name: Unit test (${{ needs.setup.outputs.case }}, ${{ matrix.test_set }})
+    needs: setup,build
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ${{ fromJson(needs.setup.outputs.test) }}
+        include:
+          - test_set: thr,mpi,dcp,rst
+            artifact: std
+          - test_set: bit
+            artifact: bit
+          - test_set: dbg
+            artifact: dbg
+
+    - name: download image
+      uses: actions/download-artifact@v2
+      with:
+        name: ci-test-weather-${{ matrix.artifact }}
+
+    - name: do something
+      run: echo "${{ needs.setup.outputs.case }}, ${{ matrix.artifact }}, ${{ matrix.test_set }}"
