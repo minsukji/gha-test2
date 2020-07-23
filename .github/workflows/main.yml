@@ -59,7 +59,7 @@ jobs:
 
   utest:
     name: Unit test (${{ needs.setup.outputs.case }}, ${{ matrix.test_set }})
-    needs: setup,build
+    needs: [setup,build]
     runs-on: ubuntu-latest
 
     strategy:
