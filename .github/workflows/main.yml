@@ -43,50 +43,13 @@ jobs:
           [[ $i =~ dbg ]] && tv+=( dbg )
         done
 
-        var5=$(echo $var5 | sed -e 's/,$//')
-        var5+='],"include":['
-        j=0
-        for i in $var2; do var5+="{\"test_set\":\"$i\",\"artifact\":\"${tv[$j]}\"},"; ((j++)); done
-        var5=$(echo $var5 | sed -e 's/,$//')
-        var5+=']}'
+        #var5=$(echo $var5 | sed -e 's/,$//')
+        #var5+='],"include":['
+        #j=0
+        #for i in $var2; do var5+="{\"test_set\":\"$i\",\"artifact\":\"${tv[$j]}\"},"; ((j++)); done
+        #var5=$(echo $var5 | sed -e 's/,$//')
+        #var5+=']}'
 
         echo "::set-output name=case::$var1"
         echo "::set-output name=bld::$var4"
-        echo "::set-output name=test::$var5"
-
-  build:
-    name: Build ${{ matrix.bld_set }}
-    needs: setup
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.setup.outputs.bld) }}
-
-    steps:
-    - name: create image
-      run: echo ${{ matrix.bld_set }} > ci-test-weather
-
-    - name: upload image
-      uses: actions/upload-artifact@v2
-      with:
-        name: ci-test-weather-${{ matrix.bld_set }}
-        path: ci-test-weather
-
-  utest:
-    name: Unit test (${{ needs.setup.outputs.case }}, ${{ matrix.test_set }})
-    needs: [setup,build]
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.setup.outputs.test) }}
-
-    steps:
-    - name: download image
-      uses: actions/download-artifact@v2
-      with:
-        name: ci-test-weather-${{ matrix.artifact }}
-
-#    - name: do something
-#      run: echo "${{ needs.setup.outputs.case }}, ${{ matrix.artifact }}, ${{ matrix.test_set }}"
+        #echo "::set-output name=test::$var5"
