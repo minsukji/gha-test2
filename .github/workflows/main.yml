@@ -67,7 +67,13 @@ jobs:
       matrix:
         ${{ fromJson(needs.setup.outputs.test) }}
         include:
-          - test_set: thr,mpi,dcp,rst
+          - test_set: thr
+            artifact: std
+          - test_set: mpi
+            artifact: std
+          - test_set: dcp
+            artifact: std
+          - test_set: rst
             artifact: std
           - test_set: bit
             artifact: bit
