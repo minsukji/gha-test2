@@ -88,5 +88,5 @@ jobs:
       with:
         name: ci-test-weather-${{ matrix.artifact }}
 
-#    - name: do something
-#      run: echo "${{ needs.setup.outputs.case }}, ${{ matrix.artifact }}, ${{ matrix.test_set }}"
+    - name: do something
+      run: echo "${{ needs.setup.outputs.case }}, ${{ matrix.artifact }}, ${{ matrix.test_set }}"
