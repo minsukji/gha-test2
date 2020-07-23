@@ -11,16 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      case: ${{ steps.setup.output.case }}
-      bld: ${{ steps.setup.output.bld }}
-      test: ${{ steps.setup.output.test }}
+      case: ${{ steps.parse.output.case }}
+      bld: ${{ steps.parse.output.bld }}
+      test: ${{ steps.parse.output.test }}
 
     steps:
     - name: Checkout codes
       uses: actions/checkout@v2
 
     - name: Parse cases
-      id: setup
+      id: parse
       run: |
         var1=$(sed -n 1p ${GITHUB_WORKSPACE}/ci.test)
         var2=$(sed -n 2p ${GITHUB_WORKSPACE}/ci.test)
