@@ -28,6 +28,7 @@ jobs:
         [[ $var2 =~ thr || $var2 =~ mpi || $var2 =~ dcp || $var2 =~ rst ]] && var3+='std'
         [[ $var2 =~ bit ]] && var3+=' bit'
         [[ $var2 =~ dbg ]] && var3+=' dbg'
+
         var3=$(echo $var3 | sed -e 's/^ *//' -e 's/ *$//')
         var4='{"bld_set":['
         for i in $var3; do var4+="\"$i\","; done
@@ -46,10 +47,7 @@ jobs:
         var5=$(echo $var5 | sed -e 's/,$//')
         var5+='],"include":['
         j=0
-        for i in $var2; do
-          var5+="{\"test_set\":\"$i\",\"artifact\":\"${tv[$j]}\"},"
-          j=$((j+1))
-        done
+        for i in $var2; do var5+="{\"test_set\":\"$i\",\"artifact\":\"${tv[$j]}\"},"; j=$((j+1)); done
         var5=$(echo $var5 | sed -e 's/,$//')
         var5+=']}'
 
