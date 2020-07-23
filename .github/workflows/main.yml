@@ -65,20 +65,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ${{ fromJson(needs.setup.outputs.test) }}
+        test_set: ['rst']
+        #${{ fromJson(needs.setup.outputs.test) }}
         include:
-          - test_set: thr
-            artifact: std
-          - test_set: mpi
-            artifact: std
-          - test_set: dcp
-            artifact: std
           - test_set: rst
             artifact: std
-          - test_set: bit
-            artifact: bit
-          - test_set: dbg
-            artifact: dbg
 
     steps:
     - name: download image
@@ -86,5 +77,5 @@ jobs:
       with:
         name: ci-test-weather-${{ matrix.artifact }}
 
-    - name: do something
-      run: echo "${{ needs.setup.outputs.case }}, ${{ matrix.artifact }}, ${{ matrix.test_set }}"
+#    - name: do something
+#      run: echo "${{ needs.setup.outputs.case }}, ${{ matrix.artifact }}, ${{ matrix.test_set }}"
