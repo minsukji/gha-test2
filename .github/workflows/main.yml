@@ -46,7 +46,10 @@ jobs:
         var5=$(echo $var5 | sed -e 's/,$//')
         var5+='],"include":['
         j=0
-        #for i in $var2; do var5+="{\"test_set\":\"$i\",\"artifact\":\"${tv[$j]}\"},"; ((j++)); done
+        for i in $var2; do
+          var5+="{\"test_set\":\"$i\",\"artifact\":\"${tv[$j]}\"},"
+          ((j++))
+        done
         var5=$(echo $var5 | sed -e 's/,$//')
         var5+=']}'
 
