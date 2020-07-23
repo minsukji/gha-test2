@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      case: ${{ steps.parse.output.case }}
-      bld: ${{ steps.parse.output.bld }}
-      test: ${{ steps.parse.output.test }}
+      case: ${{ steps.parse.outputs.case }}
+      bld: ${{ steps.parse.outputs.bld }}
+      test: ${{ steps.parse.outputs.test }}
 
     steps:
     - name: Checkout codes
@@ -36,6 +36,9 @@ jobs:
         echo "::set-output name=case::$var1"
         echo "::set-output name=bld::$var4"
         echo "::set-output name=test::$var2"
+        echo $var1
+        echo $var4
+        echo $var2
 
   build:
     name: Build ${{ matrix.bld_set }}
