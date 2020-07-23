@@ -1,2 +1,2 @@
 fv3_ccpp_control
-{"test_set":["dbg","bit","thr","mpi","dcp"]}
+dbg rst bit thr mpi dcp
