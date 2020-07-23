@@ -31,7 +31,7 @@ jobs:
         var3=$(echo $var3 | sed -e 's/^ *//' -e 's/ *$//')
         var4='{"bld_set":['
         for i in $var3; do var4+="\"$i\","; done
-        var4+=$(echo $VAR4 | sed -e 's/,$//')
+        var4+=$(echo $var4 | sed -e 's/,$//')
         var4+=']}'
         echo "::set-output name=case::$var1"
         echo "::set-output name=bld::$var4"
